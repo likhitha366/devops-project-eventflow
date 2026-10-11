@@ -1,0 +1,14 @@
+services:
+  frontend:
+    build: ./frontend
+    ports: ["8080:80"]
+    depends_on: [event-service, registration-service]
+  user-service:
+    build: ./user-service
+    ports: ["8081:8081"]
+  event-service:
+    build: ./event-service
+    ports: ["8082:8082"]
+  registration-service:
+    build: ./registration-service
+    ports: ["8083:8083"]

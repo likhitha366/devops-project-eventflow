@@ -1,0 +1,8 @@
+**/target/
+.m2/
+.tools/
+*.zip
+*.log
+StaticServer.class
+.idea/
+.vscode/
