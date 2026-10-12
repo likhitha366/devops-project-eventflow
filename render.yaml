@@ -1,0 +1,59 @@
+services:
+  - type: web
+    name: eventflow-user-service
+    runtime: docker
+    plan: free
+    dockerfilePath: ./user-service/Dockerfile
+    dockerContext: ./user-service
+    healthCheckPath: /users
+    envVars:
+      - key: PORT
+        value: "10000"
+
+  - type: web
+    name: eventflow-event-service
+    runtime: docker
+    plan: free
+    dockerfilePath: ./event-service/Dockerfile
+    dockerContext: ./event-service
+    healthCheckPath: /events
+    envVars:
+      - key: PORT
+        value: "10000"
+
+  - type: web
+    name: eventflow-registration-service
+    runtime: docker
+    plan: free
+    dockerfilePath: ./registration-service/Dockerfile
+    dockerContext: ./registration-service
+    healthCheckPath: /registrations
+    envVars:
+      - key: PORT
+        value: "10000"
+
+  - type: web
+    name: eventflow-frontend
+    runtime: docker
+    plan: free
+    dockerfilePath: ./frontend/Dockerfile
+    dockerContext: ./frontend
+    healthCheckPath: /
+    envVars:
+      - key: PORT
+        value: "10000"
+      - key: USER_SERVICE_HOSTPORT
+        fromService:
+          type: web
+          name: eventflow-user-service
+          property: hostport
+      - key: EVENT_SERVICE_HOSTPORT
+        fromService:
+          type: web
+          name: eventflow-event-service
+          property: hostport
+      - key: REGISTRATION_SERVICE_HOSTPORT
+        fromService:
+          type: web
+          name: eventflow-registration-service
+          property: hostport

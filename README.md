@@ -58,6 +58,10 @@ The Jenkins pipeline builds and tests the services, builds the four Docker image
 
 The Jenkins agent must be logged in to the image registry, and `kubectl` must already have credentials for the target cluster. The frontend is exposed as a Kubernetes NodePort at `http://<node-ip>:30080`; its Nginx proxy sends API requests to the in-cluster services.
 
+## Deploying on Render
+
+This repository includes a Render Blueprint in `render.yaml`. In Render, create a new Blueprint and connect this repository's `main` branch. The Blueprint creates separate web services for the frontend and each API, using each service's Dockerfile and wiring the frontend to the APIs over Render's private network. Open the `eventflow-frontend` service URL after all four services finish deploying. The existing one-service setup cannot build from the repository root because there is no root-level `Dockerfile`.
+
 ## Project talking point
 
 “EventFlow is not only an event website. It is a small application used to demonstrate how code is version-controlled, tested, containerized and deployed automatically through a DevOps pipeline.”
