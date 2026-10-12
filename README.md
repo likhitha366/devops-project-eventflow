@@ -47,7 +47,16 @@ Example registration body:
 
 ## CI/CD flow
 
-Every push triggers Jenkins to build and test all services, build Docker images, and apply the Kubernetes manifests. Configure the `REGISTRY` Jenkins environment variable to publish to your Docker registry. The deployment stage requires `kubectl` access to your cluster.
+The Jenkins pipeline builds and tests the services, builds the four Docker images, and can publish and deploy them when enabled. Configure the Jenkins agent with Java 17, Maven, Docker Compose v2, and `kubectl`. Use the Jenkins build parameters to publish and deploy:
+
+| Variable | Example | Purpose |
+|---|---|---|
+| `REGISTRY` | `my-dockerhub-user` | Image registry and repository prefix; defaults to `eventflow` |
+| `IMAGE_TAG` | `release-12` | Optional image tag; blank defaults to the Jenkins build number |
+| `PUBLISH_IMAGES` | Checked | Push built images to the configured registry |
+| `DEPLOY_TO_K8S` | Checked | Apply the Kubernetes deployment after publishing |
+
+The Jenkins agent must be logged in to the image registry, and `kubectl` must already have credentials for the target cluster. The frontend is exposed as a Kubernetes NodePort at `http://<node-ip>:30080`; its Nginx proxy sends API requests to the in-cluster services.
 
 ## Project talking point
 

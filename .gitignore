@@ -3,6 +3,7 @@
 .tools/
 *.zip
 *.log
+eventflow-rendered.yaml
 StaticServer.class
 .idea/
 .vscode/
